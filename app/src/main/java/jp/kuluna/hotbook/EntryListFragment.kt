@@ -2,11 +2,10 @@ package jp.kuluna.hotbook
 
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
+import android.content.Intent
 import android.databinding.DataBindingUtil
-import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
-import android.support.customtabs.CustomTabsIntent
 import android.support.v4.app.Fragment
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
@@ -84,8 +83,10 @@ class EntryListAdapter(private val context: Context) : RecyclerView.Adapter<Entr
         holder.binding.item = items[holder.adapterPosition]
         holder.binding.executePendingBindings()
         holder.itemView.setOnClickListener {
-            // Chrome custom tab で開く
-            CustomTabsIntent.Builder().build().launchUrl(context, Uri.parse(items[holder.adapterPosition].url))
+            val intent = Intent(context, EntryActivity::class.java).apply {
+                putExtra("url", holder.binding.item!!.url)
+            }
+            context.startActivity(intent)
         }
 
         // animation
