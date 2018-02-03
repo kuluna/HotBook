@@ -18,7 +18,7 @@ class EntryListViewModel(app: Application) : AndroidViewModel(app) {
     fun getEntries(owner: LifecycleOwner, category: String, done: () -> Unit) {
         RetrofitLiveData(api.getEntries(category)).observe(owner, Observer { response ->
             response?.body?.let {
-                adapter.items = it
+                adapter.items = it.filter { it.is_pr == 0 }
             }
 
             response?.error?.let {

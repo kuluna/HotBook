@@ -89,7 +89,7 @@ class EntryListAdapter(private val context: Context) : RecyclerView.Adapter<Entr
         }
 
         // animation
-        if (animated <= holder.adapterPosition) {
+        if (animated < holder.adapterPosition) {
             val slideUpAnimation = AnimationUtils.loadAnimation(context, R.anim.slide_up)
             holder.itemView.startAnimation(slideUpAnimation)
             animated = holder.adapterPosition

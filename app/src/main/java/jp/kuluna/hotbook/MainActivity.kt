@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v7.app.AppCompatActivity
 import jp.kuluna.hotbook.databinding.ActivityMainBinding
+import jp.kuluna.hotbook.models.AppPreference
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,6 +20,14 @@ class MainActivity : AppCompatActivity() {
 
         binding.viewPager.adapter = MainPagerAdapter(supportFragmentManager, this)
         binding.tabLayout.setupWithViewPager(binding.viewPager)
+
+        // 最後に表示していたカテゴリに移動する
+        binding.viewPager.currentItem = AppPreference(this).openItem
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        AppPreference(this).openItem = binding.viewPager.currentItem
     }
 }
 

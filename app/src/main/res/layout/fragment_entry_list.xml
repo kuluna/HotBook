@@ -1,6 +1,5 @@
 <?rss version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="jp.kuluna.hotbook.EntryListFragment">
 
@@ -25,32 +24,23 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:paddingEnd="2dp"
+                android:paddingStart="2dp" />
 
         </android.support.v4.widget.SwipeRefreshLayout>
 
-        <LinearLayout
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:visibility="@{viewModel.emptyView ? View.VISIBLE : View.GONE}">
+            android:drawableTop="@drawable/ic_help_outline_100dp"
+            android:text="@string/error_message"
+            android:textSize="18sp"
+            android:textColor="@color/lightGrey"
+            android:visibility="@{viewModel.emptyView ? View.VISIBLE : View.GONE}" />
 
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/ic_help_outline_24dp"
-                android:tint="#aaa" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/error_message"
-                android:textColor="#aaa"
-                android:textSize="18sp" />
-        </LinearLayout>
     </RelativeLayout>
 
 </layout>
