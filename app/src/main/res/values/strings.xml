@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Hot Book</string>
+    <string name="error_message">エラーで表示できませんでした</string>
 
     <string-array name="tab_title">
         <item>総合</item>
