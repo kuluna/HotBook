@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">Hot Book</string>
+
+    <string-array name="tab_title">
+        <item>総合</item>
+        <item>一般</item>
+        <item>世の中</item>
+        <item>政治と経済</item>
+        <item>暮らし</item>
+        <item>学び</item>
+        <item>テクノロジー</item>
+        <item>おもしろ</item>
+        <item>エンタメ</item>
+        <item>アニメとゲーム</item>
+    </string-array>
+
+    <string-array name="categories">
+        <item>hotentry</item>
+        <item>general</item>
+        <item>social</item>
+        <item>economics</item>
+        <item>life</item>
+        <item>knowledge</item>
+        <item>it</item>
+        <item>fun</item>
+        <item>entertainment</item>
+        <item>game</item>
+    </string-array>
+</resources>
