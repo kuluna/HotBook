@@ -7,7 +7,6 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.Fragment
-import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +14,7 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import jp.kuluna.hotbook.databinding.FragmentEntryListBinding
 import jp.kuluna.hotbook.databinding.ListEntryBinding
+import jp.kuluna.hotbook.extensions.DataBindingAdapter
 import jp.kuluna.hotbook.models.Entry
 import jp.kuluna.hotbook.viewmodels.EntryListViewModel
 
@@ -44,6 +44,15 @@ class EntryListFragment : Fragment() {
         // setup RecyclerView
         binding.recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         binding.recyclerView.adapter = viewModel.adapter
+        viewModel.adapter.listener = object : DataBindingAdapter.OnItemClickListener<Entry> {
+            override fun onItemClick(selectedItem: Entry, position: Int) {
+                val intent = Intent(context, EntryActivity::class.java).apply {
+                    putExtra("title", selectedItem.title)
+                    putExtra("url", selectedItem.url)
+                }
+                startActivity(intent)
+            }
+        }
 
         // setup swipe to refresh
         binding.swipeRefresh.setOnRefreshListener {
@@ -63,35 +72,11 @@ class EntryListFragment : Fragment() {
     }
 }
 
-class EntryListAdapter(private val context: Context) : RecyclerView.Adapter<EntryItemHolder>() {
+class EntryListAdapter(context: Context) : DataBindingAdapter<Entry, ListEntryBinding>(context, R.layout.list_entry) {
     private var animated = 0
 
-    var items = emptyList<Entry>()
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
-
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): EntryItemHolder {
-        val v = LayoutInflater.from(context).inflate(R.layout.list_entry, parent, false)
-        return EntryItemHolder(v)
-    }
-
-    override fun getItemCount(): Int = items.size
-
-    override fun onBindViewHolder(holder: EntryItemHolder, position: Int) {
-        val item = items[holder.adapterPosition]
-
-        holder.binding.item = item
-        holder.binding.executePendingBindings()
-        holder.itemView.setOnClickListener {
-            val intent = Intent(context, EntryActivity::class.java).apply {
-                putExtra("title", item.title)
-                putExtra("url", item.url)
-            }
-            context.startActivity(intent)
-        }
-
+    override fun onBindViewHolder(holder: DataBindingViewHolder<ListEntryBinding>, position: Int) {
+        super.onBindViewHolder(holder, position)
         // animation
         if (animated < holder.adapterPosition) {
             val slideUpAnimation = AnimationUtils.loadAnimation(context, R.anim.slide_up)
@@ -99,8 +84,8 @@ class EntryListAdapter(private val context: Context) : RecyclerView.Adapter<Entr
             animated = holder.adapterPosition
         }
     }
-}
 
-class EntryItemHolder(view: View) : RecyclerView.ViewHolder(view) {
-    val binding: ListEntryBinding = DataBindingUtil.bind(view)
+    override fun bind(holder: DataBindingViewHolder<ListEntryBinding>, item: Entry) {
+        holder.binding.item = item
+    }
 }
