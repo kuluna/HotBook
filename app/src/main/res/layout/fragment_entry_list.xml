@@ -37,8 +37,8 @@
             android:layout_centerVertical="true"
             android:drawableTop="@drawable/ic_help_outline_100dp"
             android:text="@string/error_message"
-            android:textSize="18sp"
             android:textColor="@color/lightGrey"
+            android:textSize="18sp"
             android:visibility="@{viewModel.emptyView ? View.VISIBLE : View.GONE}" />
 
     </RelativeLayout>

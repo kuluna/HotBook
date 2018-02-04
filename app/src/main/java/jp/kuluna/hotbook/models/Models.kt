@@ -15,7 +15,11 @@ data class Entry(
         var url: String,
         var title: String,
         var is_pr: Int
-)
+) {
+    fun count(): Int {
+        return count.toInt()
+    }
+}
 
 data class EntryImage(
         var width: Int,

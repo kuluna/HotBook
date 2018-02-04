@@ -6,6 +6,7 @@ import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
@@ -46,6 +47,7 @@ class EntryActivity : AppCompatActivity() {
             val ft = supportFragmentManager.beginTransaction().apply {
                 commentFragment = CommentListFragment.new(url)
                 add(R.id.fragmentContainer, commentFragment, "url")
+                hide(commentFragment)
             }
             ft.commit()
 
@@ -81,11 +83,11 @@ class EntryActivity : AppCompatActivity() {
             R.id.menuComment -> {
                 val ft = supportFragmentManager.beginTransaction().apply {
                     if (viewModel.showComment.get()) {
-                        show(commentFragment)
-                        setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                    } else {
                         hide(commentFragment)
                         setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
+                    } else {
+                        show(commentFragment)
+                        setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     }
                 }
                 ft.commit()

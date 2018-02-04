@@ -7,6 +7,11 @@
     <string name="error_url_not_found">URLが設定されていません。</string>
     <string name="disable_javascript">このサイトのJavaScriptを無効</string>
 
+    <plurals name="users">
+        <item quantity="one">%s user</item>
+        <item quantity="other">%s users</item>
+    </plurals>
+
     <string-array name="tab_title">
         <item>総合</item>
         <item>一般</item>
