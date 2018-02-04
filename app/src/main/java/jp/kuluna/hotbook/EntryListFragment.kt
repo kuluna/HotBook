@@ -80,11 +80,14 @@ class EntryListAdapter(private val context: Context) : RecyclerView.Adapter<Entr
     override fun getItemCount(): Int = items.size
 
     override fun onBindViewHolder(holder: EntryItemHolder, position: Int) {
-        holder.binding.item = items[holder.adapterPosition]
+        val item = items[holder.adapterPosition]
+
+        holder.binding.item = item
         holder.binding.executePendingBindings()
         holder.itemView.setOnClickListener {
             val intent = Intent(context, EntryActivity::class.java).apply {
-                putExtra("url", holder.binding.item!!.url)
+                putExtra("title", item.title)
+                putExtra("url", item.url)
             }
             context.startActivity(intent)
         }

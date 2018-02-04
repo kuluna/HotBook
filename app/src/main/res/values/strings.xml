@@ -4,6 +4,8 @@
     <string name="comment">コメント</string>
     <string name="open_browser">ブラウザで開く</string>
     <string name="share_url">URLを共有</string>
+    <string name="error_url_not_found">URLが設定されていません。</string>
+    <string name="disable_javascript">このサイトのJavaScriptを無効</string>
 
     <string-array name="tab_title">
         <item>総合</item>
@@ -30,7 +32,4 @@
         <item>entertainment</item>
         <item>game</item>
     </string-array>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

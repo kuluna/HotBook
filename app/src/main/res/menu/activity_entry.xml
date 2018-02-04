@@ -7,6 +7,9 @@
         android:title="@string/comment"
         app:showAsAction="always" />
     <item
+        android:id="@+id/menuBlockJs"
+        android:title="@string/disable_javascript" />
+    <item
         android:id="@+id/menuShare"
         android:title="@string/share_url" />
     <item
