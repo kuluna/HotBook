@@ -16,6 +16,10 @@ data class Entry(
         var title: String,
         var is_pr: Int
 ) {
+    fun getImageUrl(): String? {
+        return image_l?.url
+    }
+
     fun count(): Int {
         return count.toInt()
     }
@@ -47,6 +51,8 @@ data class Bookmark(
         val format = SimpleDateFormat("yyyy/MM/dd hh:mm:ss", Locale.JAPAN)
         return format.parse(timestamp)
     }
+
+    fun getUserIconUrl(): String = "https://cdn.profile-image.st-hatena.com/users/${user}/profile.png"
 }
 
 //////////////////// Wrapper ////////////////////
