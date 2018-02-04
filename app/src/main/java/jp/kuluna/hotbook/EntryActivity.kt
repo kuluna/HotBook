@@ -6,7 +6,6 @@ import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
@@ -23,7 +22,7 @@ class EntryActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEntryBinding
     private lateinit var viewModel: EntryViewModel
 
-    private lateinit var commentFragment: CommentListFragment
+    private lateinit var bookmarkFragment: BookmarkListFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,9 +44,9 @@ class EntryActivity : AppCompatActivity() {
 
             // setup comment fragment
             val ft = supportFragmentManager.beginTransaction().apply {
-                commentFragment = CommentListFragment.new(url)
-                add(R.id.fragmentContainer, commentFragment, "url")
-                hide(commentFragment)
+                bookmarkFragment = BookmarkListFragment.new(url)
+                add(R.id.fragmentContainer, bookmarkFragment, "url")
+                hide(bookmarkFragment)
             }
             ft.commit()
 
@@ -83,10 +82,10 @@ class EntryActivity : AppCompatActivity() {
             R.id.menuComment -> {
                 val ft = supportFragmentManager.beginTransaction().apply {
                     if (viewModel.showComment.get()) {
-                        hide(commentFragment)
+                        hide(bookmarkFragment)
                         setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
                     } else {
-                        show(commentFragment)
+                        show(bookmarkFragment)
                         setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     }
                 }

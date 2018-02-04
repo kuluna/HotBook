@@ -1,5 +1,6 @@
 package jp.kuluna.hotbook.models
 
+import android.net.Uri
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -16,13 +17,11 @@ data class Entry(
         var title: String,
         var is_pr: Int
 ) {
-    fun getImageUrl(): String? {
-        return image_l?.url
-    }
+    fun getImageUrl(): String? = image_l?.url
 
-    fun count(): Int {
-        return count.toInt()
-    }
+    fun count(): Int = count.toInt()
+
+    fun getHost(): String = Uri.parse(root_url).host
 }
 
 data class EntryImage(

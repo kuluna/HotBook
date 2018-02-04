@@ -10,17 +10,17 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import jp.kuluna.hotbook.databinding.FragmentCommentListBinding
-import jp.kuluna.hotbook.databinding.ListCommentBinding
+import jp.kuluna.hotbook.databinding.FragmentBookmarkListBinding
+import jp.kuluna.hotbook.databinding.ListBookmarkBinding
 import jp.kuluna.hotbook.extensions.DataBindingAdapter
 import jp.kuluna.hotbook.models.Bookmark
 import jp.kuluna.hotbook.viewmodels.EntryViewModel
 
-class CommentListFragment : Fragment() {
+class BookmarkListFragment : Fragment() {
 
     companion object {
-        fun new(url: String): CommentListFragment {
-            val f = CommentListFragment()
+        fun new(url: String): BookmarkListFragment {
+            val f = BookmarkListFragment()
             f.arguments = Bundle().apply {
                 putString("url", url)
             }
@@ -28,11 +28,11 @@ class CommentListFragment : Fragment() {
         }
     }
 
-    private lateinit var binding: FragmentCommentListBinding
+    private lateinit var binding: FragmentBookmarkListBinding
     private lateinit var viewModel: EntryViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_comment_list, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_bookmark_list, container, false)
         return binding.root
     }
 
@@ -53,8 +53,8 @@ class CommentListFragment : Fragment() {
     }
 }
 
-class BookmarkAdapter(context: Context) : DataBindingAdapter<Bookmark, ListCommentBinding>(context, R.layout.list_comment) {
-    override fun bind(holder: DataBindingViewHolder<ListCommentBinding>, item: Bookmark) {
+class BookmarkAdapter(context: Context) : DataBindingAdapter<Bookmark, ListBookmarkBinding>(context, R.layout.list_bookmark) {
+    override fun bind(holder: DataBindingViewHolder<ListBookmarkBinding>, item: Bookmark) {
         holder.binding.bookmark = item
     }
 }
