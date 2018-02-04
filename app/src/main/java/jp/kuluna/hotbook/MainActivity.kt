@@ -1,6 +1,7 @@
 package jp.kuluna.hotbook
 
 import android.content.Context
+import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -20,9 +21,15 @@ class MainActivity : AppCompatActivity() {
 
         binding.viewPager.adapter = MainPagerAdapter(supportFragmentManager, this)
         binding.tabLayout.setupWithViewPager(binding.viewPager)
-
         // 最後に表示していたカテゴリに移動する
         binding.viewPager.currentItem = AppPreference(this).openItem
+
+        // ActionBarにメニューを追加
+        binding.toolBar.inflateMenu(R.menu.activity_main)
+        binding.toolBar.setOnMenuItemClickListener {
+            startActivity(Intent(this, AppPreferenceActivity::class.java))
+            true
+        }
     }
 
     override fun onDestroy() {
