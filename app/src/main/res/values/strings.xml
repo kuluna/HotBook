@@ -3,10 +3,12 @@
     <string name="error_message">エラーで表示できませんでした</string>
     <string name="comment">コメント</string>
     <string name="open_browser">ブラウザで開く</string>
-    <string name="share_url">URLを共有</string>
+    <string name="share_url">共有</string>
     <string name="error_url_not_found">URLが設定されていません。</string>
     <string name="disable_javascript">このサイトのJavaScriptを無効</string>
     <string name="setting">設定</string>
+    <string name="dark">暗くする</string>
+    <string name="light">明るくする</string>
 
     <plurals name="users">
         <item quantity="one">%s user</item>

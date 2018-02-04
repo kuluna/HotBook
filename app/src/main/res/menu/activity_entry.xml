@@ -7,6 +7,11 @@
         android:title="@string/comment"
         app:showAsAction="always" />
     <item
+        android:id="@+id/menuBrightness"
+        android:icon="@drawable/ic_brightness_medium_24dp"
+        android:title="@string/dark"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/menuBlockJs"
         android:title="@string/disable_javascript" />
     <item
