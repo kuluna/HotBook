@@ -51,6 +51,11 @@ class BookmarkListFragment : Fragment() {
         // load comments
         viewModel.getComments(this, arguments!!.getString("url"))
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.bookmarksAdapter.listener = null
+    }
 }
 
 class BookmarkAdapter(context: Context) : DataBindingAdapter<Bookmark, ListBookmarkBinding>(context, R.layout.list_bookmark) {

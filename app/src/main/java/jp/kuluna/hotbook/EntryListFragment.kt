@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.Fragment
@@ -48,6 +49,7 @@ class EntryListFragment : Fragment() {
             override fun onItemClick(selectedItem: Entry, position: Int) {
                 val intent = Intent(context, EntryActivity::class.java).apply {
                     putExtra("title", selectedItem.title)
+                    putExtra("host", Uri.parse(selectedItem.url).host)
                     putExtra("url", selectedItem.url)
                 }
                 startActivity(intent)
@@ -69,6 +71,11 @@ class EntryListFragment : Fragment() {
         viewModel.getEntries(this, category) {
             Handler().postDelayed({ binding.swipeRefresh.isRefreshing = false }, 1000)
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.adapter.listener = null
     }
 }
 

@@ -1,6 +1,7 @@
 package jp.kuluna.hotbook
 
 import android.annotation.SuppressLint
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.databinding.DataBindingUtil
@@ -8,6 +9,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
+import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.webkit.WebChromeClient
@@ -30,7 +32,7 @@ class EntryActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this).get(EntryViewModel::class.java)
         binding.viewModel = viewModel
 
-        intent.getStringExtra("title")?.let {
+        intent.getStringExtra("host")?.let {
             title = it
         }
 
@@ -54,6 +56,21 @@ class EntryActivity : AppCompatActivity() {
             Toast.makeText(this, R.string.error_url_not_found, Toast.LENGTH_SHORT).show()
             finish()
         }
+
+        // コメントの表示、非表示の切り替え
+        viewModel.showComment.observe(this, Observer {
+            val ft = supportFragmentManager.beginTransaction().apply {
+                if (it == true) {
+                    show(bookmarkFragment)
+                    setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+
+                } else {
+                    hide(bookmarkFragment)
+                    setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
+                }
+            }
+            ft.commit()
+        })
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -80,17 +97,8 @@ class EntryActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menuComment -> {
-                val ft = supportFragmentManager.beginTransaction().apply {
-                    if (viewModel.showComment.get()) {
-                        hide(bookmarkFragment)
-                        setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
-                    } else {
-                        show(bookmarkFragment)
-                        setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                    }
-                }
-                ft.commit()
-                viewModel.showComment.set(!viewModel.showComment.get())
+                val change = viewModel.showComment.value?.let { !it } ?: run { true }
+                viewModel.showComment.postValue(change)
             }
 
             R.id.menuBlockJs -> {
@@ -112,5 +120,14 @@ class EntryActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        // コメントを表示している場合はBackキーで非表示にする
+        if (keyCode == KeyEvent.KEYCODE_BACK && viewModel.showComment.value == true) {
+            viewModel.showComment.postValue(false)
+            return false
+        }
+        return super.onKeyDown(keyCode, event)
     }
 }

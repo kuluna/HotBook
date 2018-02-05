@@ -3,6 +3,7 @@ package jp.kuluna.hotbook.viewmodels
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.LifecycleOwner
+import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Observer
 import android.content.Context
 import android.databinding.ObservableBoolean
@@ -17,7 +18,7 @@ class EntryViewModel(app: Application): AndroidViewModel(app) {
 
     // Webの読み込み
     var url = ObservableField<String>()
-    var showComment = ObservableBoolean(false)
+    var showComment = MutableLiveData<Boolean>()
     var progress = ObservableInt(0)
 
     // コメントの読み込み
