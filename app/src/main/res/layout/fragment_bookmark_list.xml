@@ -7,7 +7,7 @@
         android:layout_height="match_parent"
         android:background="?android:attr/colorBackground"
         android:scrollbars="vertical"
-        tools:context="jp.kuluna.hotbook.BookmarkListFragment">
+        tools:context="jp.kuluna.hotbook.fragments.BookmarkListFragment">
 
     </android.support.v7.widget.RecyclerView>
 </layout>

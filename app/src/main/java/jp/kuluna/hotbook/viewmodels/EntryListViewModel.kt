@@ -5,7 +5,7 @@ import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.Observer
 import android.databinding.ObservableBoolean
-import jp.kuluna.hotbook.EntryListAdapter
+import jp.kuluna.hotbook.fragments.EntryListAdapter
 import jp.kuluna.hotbook.models.ApiClient
 import jp.kuluna.hotbook.models.RetrofitLiveData
 

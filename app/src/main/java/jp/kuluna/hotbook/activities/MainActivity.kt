@@ -1,4 +1,4 @@
-package jp.kuluna.hotbook
+package jp.kuluna.hotbook.activities
 
 import android.content.Context
 import android.content.Intent
@@ -8,6 +8,8 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v7.app.AppCompatActivity
+import jp.kuluna.hotbook.fragments.EntryListFragment
+import jp.kuluna.hotbook.R
 import jp.kuluna.hotbook.databinding.ActivityMainBinding
 import jp.kuluna.hotbook.models.AppPreference
 

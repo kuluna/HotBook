@@ -1,4 +1,4 @@
-package jp.kuluna.hotbook
+package jp.kuluna.hotbook.fragments
 
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
@@ -13,6 +13,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import jp.kuluna.hotbook.R
+import jp.kuluna.hotbook.activities.EntryActivity
 import jp.kuluna.hotbook.databinding.FragmentEntryListBinding
 import jp.kuluna.hotbook.databinding.ListEntryBinding
 import jp.kuluna.hotbook.extensions.DataBindingAdapter

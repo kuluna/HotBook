@@ -1,4 +1,4 @@
-package jp.kuluna.hotbook
+package jp.kuluna.hotbook.fragments
 
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import jp.kuluna.hotbook.R
 import jp.kuluna.hotbook.databinding.FragmentBookmarkListBinding
 import jp.kuluna.hotbook.databinding.ListBookmarkBinding
 import jp.kuluna.hotbook.extensions.DataBindingAdapter
@@ -49,7 +50,7 @@ class BookmarkListFragment : Fragment() {
         }
 
         // load comments
-        viewModel.getComments(this, arguments!!.getString("url"))
+        viewModel.getBookmarks(this, arguments!!.getString("url"))
     }
 
     override fun onDestroyView() {

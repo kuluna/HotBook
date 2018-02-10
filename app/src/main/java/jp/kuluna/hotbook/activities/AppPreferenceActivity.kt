@@ -1,7 +1,8 @@
-package jp.kuluna.hotbook
+package jp.kuluna.hotbook.activities
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import jp.kuluna.hotbook.R
 
 class AppPreferenceActivity : AppCompatActivity() {
 
