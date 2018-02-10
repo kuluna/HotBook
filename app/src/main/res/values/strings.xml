@@ -6,9 +6,11 @@
     <string name="share_url">共有</string>
     <string name="error_url_not_found">URLが設定されていません。</string>
     <string name="disable_javascript">このサイトのJavaScriptを無効</string>
-    <string name="setting">設定</string>
+    <string name="preference">設定</string>
     <string name="dark">暗くする</string>
     <string name="light">明るくする</string>
+    <string name="preference_javascript">JavaScript</string>
+    <string name="preference_javascript_block_list">ブロックリスト</string>
 
     <plurals name="users">
         <item quantity="one">%s user</item>

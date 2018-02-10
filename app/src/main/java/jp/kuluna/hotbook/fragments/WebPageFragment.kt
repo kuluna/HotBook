@@ -11,12 +11,13 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import jp.kuluna.hotbook.R
 import jp.kuluna.hotbook.databinding.FragmentWebPageBinding
+import jp.kuluna.hotbook.models.AppPreference
 
 class WebPageFragment : Fragment() {
     private lateinit var binding: FragmentWebPageBinding
 
     private val webChromeClient = object : WebChromeClient() {
-        override fun onProgressChanged(view: WebView?, newProgress: Int) {
+        override fun onProgressChanged(view: WebView, newProgress: Int) {
             binding.progress = newProgress
         }
     }
@@ -44,9 +45,7 @@ class WebPageFragment : Fragment() {
         if (savedInstanceState != null) {
             binding.webView.restoreState(savedInstanceState)
         } else {
-            arguments?.getString("url", null)?.let {
-                load(it, true)
-            }
+            load()
         }
     }
 
@@ -70,8 +69,13 @@ class WebPageFragment : Fragment() {
         binding.webView.saveState(outState)
     }
 
-    fun load(url: String, javaScriptEnabled: Boolean) {
-        binding.webView.settings.run { this.javaScriptEnabled = javaScriptEnabled }
-        binding.webView.loadUrl(url)
+
+
+    fun load() {
+        arguments?.getString("url", null)?.let { url ->
+            val enableJs = !AppPreference(context!!).blockJsHosts.any { url.contains(it) }
+            binding.webView.settings.run { this.javaScriptEnabled = enableJs }
+            binding.webView.loadUrl(url)
+        }
     }
 }

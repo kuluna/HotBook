@@ -18,4 +18,10 @@ class AppPreference(context: Context) {
         sites.add(host)
         shared.edit().putStringSet("blockHosts", sites).apply()
     }
+
+    fun removeBlock(host: String) {
+        val sites = blockJsHosts.toMutableSet()
+        sites.remove(host)
+        shared.edit().putStringSet("blockHosts", sites).apply()
+    }
 }

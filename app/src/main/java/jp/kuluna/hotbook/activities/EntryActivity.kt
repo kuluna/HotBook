@@ -84,6 +84,9 @@ class EntryActivity : AppCompatActivity() {
                 val host = Uri.parse(viewModel.url.get()).host
                 AppPreference(this).addBlock(host)
                 Toast.makeText(this, "${host}はJavaScriptを実行しません。", Toast.LENGTH_SHORT).show()
+
+                // Webを再読み込み
+                (supportFragmentManager.findFragmentByTag("web") as WebPageFragment).load()
             }
 
             R.id.menuShare -> {

@@ -25,8 +25,11 @@
             android:parentActivityName=".activities.MainActivity" />
         <activity
             android:name=".activities.AppPreferenceActivity"
-            android:label="@string/setting"
+            android:label="@string/preference"
             android:parentActivityName=".activities.MainActivity" />
+        <activity
+            android:name=".activities.BlockJavaScriptListActivity"
+            android:label="@string/preference_javascript_block_list" />
     </application>
 
 </manifest>
