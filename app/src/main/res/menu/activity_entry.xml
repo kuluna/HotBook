@@ -9,7 +9,7 @@
     <item
         android:id="@+id/menuBrightness"
         android:icon="@drawable/ic_brightness_medium_24dp"
-        android:title="@string/dark"
+        android:title="@string/brightness"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/menuBlockJs"

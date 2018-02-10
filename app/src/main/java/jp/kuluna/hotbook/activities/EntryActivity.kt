@@ -13,6 +13,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import jp.kuluna.hotbook.R
 import jp.kuluna.hotbook.fragments.BookmarkListFragment
+import jp.kuluna.hotbook.fragments.DarkerFragment
 import jp.kuluna.hotbook.fragments.WebPageFragment
 import jp.kuluna.hotbook.models.AppPreference
 import jp.kuluna.hotbook.viewmodels.EntryViewModel
@@ -40,8 +41,18 @@ class EntryActivity : AppCompatActivity() {
         // Fragmentの初期設定
         if (savedInstanceState == null) {
             val ft = supportFragmentManager.beginTransaction().apply {
+                // Webページを表示するFragmentを追加
                 add(android.R.id.content, WebPageFragment.new(url), "web")
 
+                // Webページの明るさを落とすためのFragmentを追加
+                val darkerFragment = DarkerFragment()
+                add(android.R.id.content, darkerFragment, "darker")
+                // 暗くしない設定なら非表示にする
+                if (!AppPreference(this@EntryActivity).darker) {
+                    hide(darkerFragment)
+                }
+
+                // ブコメを表示するFragmentを追加(最初は非表示)
                 val bookmarkFragment = BookmarkListFragment.new(url)
                 add(android.R.id.content, bookmarkFragment, "bookmark")
                 hide(bookmarkFragment)
@@ -87,6 +98,18 @@ class EntryActivity : AppCompatActivity() {
 
                 // Webを再読み込み
                 (supportFragmentManager.findFragmentByTag("web") as WebPageFragment).load()
+            }
+
+            R.id.menuBrightness -> {
+                // 表示/非表示を切り替える
+                val pref = AppPreference(this@EntryActivity)
+                val ft = supportFragmentManager.beginTransaction().apply {
+                    val f = supportFragmentManager.findFragmentByTag("darker")
+                    if (pref.darker) hide(f) else show(f)
+                    setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                }
+                ft.commit()
+                pref.darker = !pref.darker
             }
 
             R.id.menuShare -> {

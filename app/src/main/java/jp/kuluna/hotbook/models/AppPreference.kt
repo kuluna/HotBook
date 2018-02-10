@@ -10,6 +10,10 @@ class AppPreference(context: Context) {
     get() = shared.getInt("openItem", 0)
     set(value) = shared.edit().putInt("openItem", value).apply()
 
+    var darker: Boolean
+    get() = shared.getBoolean("darker", false)
+    set(value) = shared.edit().putBoolean("darker", value).apply()
+
     val blockJsHosts: Set<String>
     get() = shared.getStringSet("blockHosts", emptySet())
 

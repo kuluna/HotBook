@@ -6,4 +6,5 @@
 
     <color name="lightGrey">#aaa</color>
     <color name="ic_launcher_background">#00A4DE</color>
+    <color name="colorDarker">#4000</color>
 </resources>
