@@ -18,6 +18,7 @@ import jp.kuluna.hotbook.fragments.WebPageFragment
 import jp.kuluna.hotbook.models.AppPreference
 import jp.kuluna.hotbook.viewmodels.EntryViewModel
 
+/** Webページとブックマークコメント一覧を表示するActivity。 */
 class EntryActivity : AppCompatActivity() {
     private lateinit var viewModel: EntryViewModel
 
@@ -25,6 +26,7 @@ class EntryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(EntryViewModel::class.java)
 
+        // URLがなければ表示できないので戻る
         val url = intent.extras.getString("url", "")
         if (url.isEmpty()) {
             Toast.makeText(this, R.string.error_url_not_found, Toast.LENGTH_SHORT).show()
@@ -33,7 +35,7 @@ class EntryActivity : AppCompatActivity() {
         }
         viewModel.url.set(url)
 
-        // URlをタイトルに設定
+        // URLをタイトルに設定
         intent.getStringExtra("host")?.let {
             title = it
         }
@@ -64,6 +66,7 @@ class EntryActivity : AppCompatActivity() {
         viewModel.showBookmark.observe(this, switchComment)
     }
 
+    /** コメント一覧の表示・非表示を切り替える */
     private val switchComment = Observer<Boolean> {
         val ft = supportFragmentManager.beginTransaction().apply {
             val bookmarkFragment = supportFragmentManager.findFragmentByTag("bookmark")
@@ -89,6 +92,11 @@ class EntryActivity : AppCompatActivity() {
             R.id.menuComment -> {
                 val change = viewModel.showBookmark.value?.let { !it } ?: run { true }
                 viewModel.showBookmark.postValue(change)
+            }
+
+            R.id.menuReload -> {
+                // Webを再読み込み
+                (supportFragmentManager.findFragmentByTag("web") as WebPageFragment).load()
             }
 
             R.id.menuBlockJs -> {

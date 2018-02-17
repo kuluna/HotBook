@@ -13,6 +13,7 @@ import jp.kuluna.hotbook.R
 import jp.kuluna.hotbook.databinding.FragmentWebPageBinding
 import jp.kuluna.hotbook.models.AppPreference
 
+/** Webページを読み込んで表示するFragment。 */
 class WebPageFragment : Fragment() {
     private lateinit var binding: FragmentWebPageBinding
 
@@ -23,6 +24,10 @@ class WebPageFragment : Fragment() {
     }
 
     companion object {
+        /** インスタンスを生成します。
+         * @param url 表示するURL
+         * @return インスタンス
+         */
         fun new(url: String): WebPageFragment {
             val f = WebPageFragment()
             f.arguments = Bundle().apply {
@@ -49,6 +54,17 @@ class WebPageFragment : Fragment() {
         }
     }
 
+    /** 読み込みを開始します。 */
+    fun load() {
+        arguments?.getString("url", null)?.let { url ->
+            val enableJs = !AppPreference(context!!).blockJsHosts.any { url.contains(it) }
+            binding.webView.settings.run { this.javaScriptEnabled = enableJs }
+            binding.webView.loadUrl(url)
+        }
+    }
+
+    // 以下はWebViewの画面回転の対応に必要です
+
     override fun onResume() {
         super.onResume()
         binding.webView.onResume()
@@ -67,15 +83,5 @@ class WebPageFragment : Fragment() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         binding.webView.saveState(outState)
-    }
-
-
-
-    fun load() {
-        arguments?.getString("url", null)?.let { url ->
-            val enableJs = !AppPreference(context!!).blockJsHosts.any { url.contains(it) }
-            binding.webView.settings.run { this.javaScriptEnabled = enableJs }
-            binding.webView.loadUrl(url)
-        }
     }
 }

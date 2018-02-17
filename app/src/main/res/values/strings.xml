@@ -10,6 +10,7 @@
     <string name="brightness">明るさを切り替える</string>
     <string name="preference_javascript">JavaScript</string>
     <string name="preference_javascript_block_list">ブロックリスト</string>
+    <string name="reload">再読み込み</string>
 
     <plurals name="users">
         <item quantity="one">%s user</item>

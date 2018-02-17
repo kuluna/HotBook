@@ -12,6 +12,9 @@
         android:title="@string/brightness"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/menuReload"
+        android:title="@string/reload" />
+    <item
         android:id="@+id/menuBlockJs"
         android:title="@string/disable_javascript" />
     <item

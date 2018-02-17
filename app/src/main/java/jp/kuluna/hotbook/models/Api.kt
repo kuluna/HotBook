@@ -41,12 +41,6 @@ class RetrofitLiveData<T>(private val call: Call<T>) : LiveData<ResponseBody<T>>
 
     override fun onFailure(call: Call<T>?, t: Throwable) {
         Log.w("HttpError", "remaining retry count: $retry\n${t.message}", t)
-//        maxRetry -= 1
-//        if (maxRetry > 0) {
-//            call?.clone()?.enqueue(this)
-//        } else {
-//
-//        }
         retry -= 1
         if (retry >= 0) {
             val error = ResponseError(0, t.localizedMessage)
