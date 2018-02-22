@@ -14,7 +14,6 @@ import jp.kuluna.hotbook.databinding.ActivityMainBinding
 import jp.kuluna.hotbook.models.AppPreference
 
 class MainActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

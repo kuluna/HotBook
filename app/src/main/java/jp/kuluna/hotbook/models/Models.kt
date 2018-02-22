@@ -32,7 +32,7 @@ data class EntryImage(
 
 data class CommentResponse(
         var count: Int,
-        var bookmarks: List<Bookmark>,
+        var bookmarks: List<Bookmark>?,
         var url: String,
         var eid: Long,
         var title: String,

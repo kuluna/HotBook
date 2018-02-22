@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter
 import android.widget.ListView
 import jp.kuluna.hotbook.models.AppPreference
 
+/** JavaScriptをブロックするURL一覧を表示するActivity。 */
 class BlockJavaScriptListActivity : AppCompatActivity() {
     private lateinit var listView: ListView
     private lateinit var adapter: ArrayAdapter<String>
@@ -32,7 +33,7 @@ class BlockJavaScriptListActivity : AppCompatActivity() {
         listView.adapter = adapter
         listView.setOnItemClickListener { adapterView, _, position, _ ->
             val url = adapterView.getItemAtPosition(position) as String
-            DeleteConfirmDialog.new(url).show(supportFragmentManager, "dialog")
+            DeleteConfirmDialogFragment.new(url).show(supportFragmentManager, "dialog")
         }
     }
 
@@ -51,10 +52,10 @@ class BlockJavaScriptListActivity : AppCompatActivity() {
         if (item.itemId == android.R.id.home) {
             finish()
         }
-
         return super.onOptionsItemSelected(item)
     }
 
+    /** ダイアログから削除が押されたイベントを受け取ってリストからURLを削除します。 */
     private val responseReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent?) {
             intent?.getStringExtra("url")?.let {
@@ -64,10 +65,14 @@ class BlockJavaScriptListActivity : AppCompatActivity() {
     }
 }
 
-class DeleteConfirmDialog : DialogFragment() {
+/** 削除の確認を行うダイアログ */
+class DeleteConfirmDialogFragment : DialogFragment() {
     companion object {
-        fun new(url: String): DeleteConfirmDialog {
-            val f = DeleteConfirmDialog()
+        /** インスタンスを生成します。
+         * @param url URL
+         */
+        fun new(url: String): DeleteConfirmDialogFragment {
+            val f = DeleteConfirmDialogFragment()
             f.arguments = Bundle().apply {
                 putString("url", url)
             }
