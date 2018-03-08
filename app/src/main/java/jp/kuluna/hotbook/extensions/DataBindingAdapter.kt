@@ -18,7 +18,7 @@ abstract class DataBindingAdapter<E, T : ViewDataBinding>(val context: Context, 
 
     var listener: OnItemClickListener<E>? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): DataBindingViewHolder<T> {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataBindingViewHolder<T> {
         val view = LayoutInflater.from(context).inflate(layoutId, parent, false)
         return DataBindingViewHolder(view)
     }
