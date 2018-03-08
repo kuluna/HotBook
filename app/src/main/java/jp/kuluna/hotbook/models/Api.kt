@@ -16,6 +16,7 @@ interface Api {
     @Headers("User-Agent: HotBook by twitter @kuluna")
     @GET("/api/ipad.hotentry")
     fun getEntries(@Query("category") category: String): Call<List<Entry>>
+
     @GET("/entry/jsonlite/")
     fun getComments(@Query("url") url: String): Call<CommentResponse>
 }
@@ -33,32 +34,38 @@ object ApiClient {
 }
 
 class RetrofitLiveData<T>(private val call: Call<T>) : LiveData<ResponseBody<T>>(), Callback<T> {
-    private var retry = 3
+    private var retry: Int = 3
 
     override fun onActive() {
         if (!call.isCanceled && !call.isExecuted) call.enqueue(this)
     }
 
     override fun onFailure(call: Call<T>?, t: Throwable) {
-        Log.w("HttpError", "remaining retry count: $retry\n${t.message}", t)
+        Log.e("Response Error", "retry $retry", t)
+
         retry -= 1
-        if (retry >= 0) {
-            val error = ResponseError(0, t.localizedMessage)
-            postValue(ResponseBody(null, error))
+        if (retry > 0) {
+            call?.clone()?.enqueue(this)
+        } else {
+            val err = ResponseError(0, t.localizedMessage ?: "")
+            postValue(ResponseBody(null, err))
         }
     }
 
     override fun onResponse(call: Call<T>?, response: Response<T>?) {
-        if (response != null) {
-            if (response.isSuccessful) {
-                postValue(ResponseBody(response.body(), null))
-            } else {
-                val err = ResponseError(response.code(), response.errorBody()?.toString() ?: "")
-                postValue(ResponseBody(null, err))
+        try {
+            if (response != null) {
+                if (response.isSuccessful) {
+                    postValue(ResponseBody(response.body(), null))
+                } else {
+                    val err = ResponseError(response.code(), response.errorBody()?.string() ?: "")
+                    Log.w("Response Error", err.message)
+                    postValue(ResponseBody(null, err))
+                }
             }
+        } catch (e: Exception) {
+            val err = ResponseError(0, e.localizedMessage ?: "")
+            postValue(ResponseBody(null, err))
         }
     }
-
-
-    fun cancel() = if(!call.isCanceled) call.cancel() else Unit
 }
