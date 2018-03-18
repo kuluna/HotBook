@@ -45,7 +45,7 @@ class EntryListFragment : Fragment() {
         binding.viewModel = viewModel
 
         // setup RecyclerView
-        binding.recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        binding.recyclerView.layoutManager = StaggeredGridLayoutManager(resources.getInteger(R.integer.grid_columns), StaggeredGridLayoutManager.VERTICAL)
         binding.recyclerView.adapter = viewModel.adapter
         viewModel.adapter.listener = object : DataBindingAdapter.OnItemClickListener<Entry> {
             override fun onItemClick(selectedItem: Entry, position: Int) {
