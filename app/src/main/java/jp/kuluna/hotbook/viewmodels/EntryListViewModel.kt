@@ -12,13 +12,14 @@ import jp.kuluna.hotbook.models.RetrofitLiveData
 class EntryListViewModel(app: Application) : AndroidViewModel(app) {
     private val api = ApiClient.hatena
 
-    var emptyView = ObservableBoolean(false)
-    var adapter = EntryListAdapter(app)
+    val emptyView = ObservableBoolean(false)
+    val adapter = EntryListAdapter(app)
 
     fun getEntries(owner: LifecycleOwner, category: String, done: () -> Unit) {
         RetrofitLiveData(api.getEntries(category)).observe(owner, Observer { response ->
             response?.body?.let {
                 adapter.items = it.filter { it.is_pr == 0 }
+                emptyView.set(false)
             }
 
             response?.error?.let {

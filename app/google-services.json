@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "32326280288",
+    "firebase_url": "https://hotbook-ee439.firebaseio.com",
+    "project_id": "hotbook-ee439",
+    "storage_bucket": "hotbook-ee439.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:32326280288:android:dfb366d64b269a11",
+        "android_client_info": {
+          "package_name": "jp.kuluna.hotbook"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "32326280288-gh0unlupjt05sj8ne340c8e9p20o5n1b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "jp.kuluna.hotbook",
+            "certificate_hash": "4534b6421065f5ea1ec9987023ae53ee13cc6830"
+          }
+        },
+        {
+          "client_id": "32326280288-3p9u1tflpdf19kofc9v3id66vkhgq8mk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDr9EzqJQ-1SZy-VyHCsarBL1w7NVYXRAo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "32326280288-3p9u1tflpdf19kofc9v3id66vkhgq8mk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
