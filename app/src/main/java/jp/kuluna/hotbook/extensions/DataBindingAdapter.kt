@@ -26,18 +26,18 @@ abstract class DataBindingAdapter<E, T : ViewDataBinding>(val context: Context, 
     override fun getItemCount(): Int =items.size
 
     override fun onBindViewHolder(holder: DataBindingViewHolder<T>, position: Int) {
-        val item = items[holder.adapterPosition]
+        val item = items[holder.layoutPosition]
         bind(holder, item)
         holder.binding.executePendingBindings()
         holder.itemView.setOnClickListener {
-            listener?.onItemClick(item, holder.adapterPosition)
+            listener?.onItemClick(item, holder.layoutPosition)
         }
     }
 
     abstract fun bind(holder: DataBindingViewHolder<T>, item: E)
 
     class DataBindingViewHolder<out T : ViewDataBinding>(view: View) : RecyclerView.ViewHolder(view) {
-        val binding: T = DataBindingUtil.bind(view)
+        val binding: T = DataBindingUtil.bind(view)!!
     }
 
     interface OnItemClickListener<in E> {

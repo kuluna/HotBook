@@ -11,6 +11,7 @@ import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import com.google.firebase.analytics.FirebaseAnalytics
 import jp.kuluna.hotbook.R
 import jp.kuluna.hotbook.fragments.BookmarkListFragment
 import jp.kuluna.hotbook.fragments.DarkerFragment
@@ -21,10 +22,12 @@ import jp.kuluna.hotbook.viewmodels.EntryViewModel
 /** Webページとブックマークコメント一覧を表示するActivity。 */
 class EntryActivity : AppCompatActivity() {
     private lateinit var viewModel: EntryViewModel
+    private lateinit var firebase: FirebaseAnalytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(EntryViewModel::class.java)
+        firebase = FirebaseAnalytics.getInstance(this)
 
         // URLがなければ表示できないので戻る
         val url = intent.extras.getString("url", "")
@@ -64,6 +67,10 @@ class EntryActivity : AppCompatActivity() {
 
         // コメントの表示、非表示の切り替え
         viewModel.showBookmark.observe(this, switchComment)
+
+        // Analytics送信
+        val event = Bundle().apply { putString("host", intent.getStringExtra("host")) }
+        firebase.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, event)
     }
 
     /** コメント一覧の表示・非表示を切り替える */
@@ -92,6 +99,7 @@ class EntryActivity : AppCompatActivity() {
             R.id.menuComment -> {
                 val change = viewModel.showBookmark.value?.let { !it } ?: run { true }
                 viewModel.showBookmark.postValue(change)
+                firebase.logEvent("show_comments", Bundle().apply { putBoolean("show", change) })
             }
 
             R.id.menuReload -> {

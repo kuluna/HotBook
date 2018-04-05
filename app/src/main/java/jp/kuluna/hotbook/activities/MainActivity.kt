@@ -7,7 +7,9 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
+import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
+import com.google.firebase.analytics.FirebaseAnalytics
 import jp.kuluna.hotbook.R
 import jp.kuluna.hotbook.databinding.ActivityMainBinding
 import jp.kuluna.hotbook.fragments.EntryListFragment
@@ -18,12 +20,26 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        val firebase = FirebaseAnalytics.getInstance(this)
+        val categories = resources.getStringArray(R.array.tab_title)
 
-        binding.viewPager.adapter = MainPagerAdapter(supportFragmentManager, this)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding.viewPager.adapter = MainPagerAdapter(supportFragmentManager, this, categories)
         binding.tabLayout.setupWithViewPager(binding.viewPager)
         // 最後に表示していたカテゴリに移動する
         binding.viewPager.currentItem = AppPreference(this).openItem
+        //
+        binding.viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrollStateChanged(state: Int) {}
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+                // 表示しているカテゴリをAnalyticsに上げる
+                val bundle = Bundle().apply {
+                    putString("category", categories[position])
+                }
+                firebase.logEvent("change_category", bundle)
+            }
+            override fun onPageSelected(position: Int) {}
+        })
 
         // ActionBarにメニューを追加
         binding.toolBar.inflateMenu(R.menu.activity_main)
@@ -39,8 +55,7 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-class MainPagerAdapter(fm: FragmentManager, context: Context) : FragmentPagerAdapter(fm) {
-    private val titles = context.resources.getStringArray(R.array.tab_title)
+class MainPagerAdapter(fm: FragmentManager, context: Context, val titles: Array<String>) : FragmentPagerAdapter(fm) {
     private val rssPaths = context.resources.getStringArray(R.array.categories)
 
     override fun getCount(): Int = titles.size
