@@ -114,6 +114,9 @@ class EntryActivity : AppCompatActivity() {
 
                 // Webを再読み込み
                 (supportFragmentManager.findFragmentByTag("web") as WebPageFragment).load()
+
+                // 記録
+                firebase.logEvent("block_js", Bundle().apply { putString("domain", host) })
             }
 
             R.id.menuBrightness -> {
