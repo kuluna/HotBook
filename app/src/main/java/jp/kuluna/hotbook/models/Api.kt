@@ -14,7 +14,7 @@ import retrofit2.http.Query
 
 interface Api {
     @Headers("User-Agent: HotBook by twitter @kuluna")
-    @GET("/api/ipad.hotentry")
+    @GET("/api/ipad.hotentry.json")
     fun getEntries(@Query("category") category: String): Call<List<Entry>>
 
     @GET("/entry/jsonlite/")

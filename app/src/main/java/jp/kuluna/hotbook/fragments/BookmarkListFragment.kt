@@ -1,12 +1,12 @@
 package jp.kuluna.hotbook.fragments
 
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,21 +41,24 @@ class BookmarkListFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(activity!!).get(EntryViewModel::class.java)
 
-        binding.recyclerView.layoutManager = LinearLayoutManager(context)
-        binding.recyclerView.adapter = viewModel.bookmarksAdapter
-        viewModel.bookmarksAdapter.listener = object : DataBindingAdapter.OnItemClickListener<Bookmark> {
-            override fun onItemClick(selectedItem: Bookmark, position: Int) {
-                Log.i("touch", selectedItem.toString())
-            }
+        val bookmarksAdapter = BookmarkAdapter(context!!)
+        // setup RecyclerView
+        binding.recyclerView.run {
+            layoutManager = LinearLayoutManager(context)
+            adapter = bookmarksAdapter
         }
 
         // load comments
         viewModel.getBookmarks(this, arguments!!.getString("url"))
-    }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        viewModel.bookmarksAdapter.listener = null
+        // on loaded
+        viewModel.bookmarks.observe(this, Observer {
+            binding.loaded = true
+            it?.let {
+                bookmarksAdapter.items = it
+                binding.empty = it.isEmpty()
+            }
+        })
     }
 }
 

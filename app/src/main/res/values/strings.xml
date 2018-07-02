@@ -11,6 +11,7 @@
     <string name="preference_javascript">JavaScript</string>
     <string name="preference_javascript_block_list">ブロックリスト</string>
     <string name="reload">再読み込み</string>
+    <string name="no_comment">コメントがありません</string>
 
     <plurals name="users">
         <item quantity="one">%s user</item>
