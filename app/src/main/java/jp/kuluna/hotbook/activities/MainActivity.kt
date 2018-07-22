@@ -27,8 +27,11 @@ class MainActivity : AppCompatActivity() {
         binding.viewPager.adapter = MainPagerAdapter(supportFragmentManager, this, categories)
         binding.tabLayout.setupWithViewPager(binding.viewPager)
         // 最後に表示していたカテゴリに移動する
-        binding.viewPager.currentItem = AppPreference(this).openItem
-        //
+        binding.viewPager.currentItem = AppPreference(this).openItem.let {
+            // 範囲外のポジションの場合は最初に戻す
+            if (categories.size <= it) 0 else it
+        }
+
         binding.viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {}
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
@@ -38,6 +41,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 firebase.logEvent("change_category", bundle)
             }
+
             override fun onPageSelected(position: Int) {}
         })
 
@@ -55,7 +59,7 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-class MainPagerAdapter(fm: FragmentManager, context: Context, val titles: Array<String>) : FragmentPagerAdapter(fm) {
+class MainPagerAdapter(fm: FragmentManager, context: Context, private val titles: Array<String>) : FragmentPagerAdapter(fm) {
     private val rssPaths = context.resources.getStringArray(R.array.categories)
 
     override fun getCount(): Int = titles.size

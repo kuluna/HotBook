@@ -20,7 +20,6 @@
 
     <string-array name="tab_title">
         <item>総合</item>
-        <item>一般</item>
         <item>世の中</item>
         <item>政治と経済</item>
         <item>暮らし</item>
@@ -32,15 +31,14 @@
     </string-array>
 
     <string-array name="categories">
-        <item>hotentry</item>
-        <item>general</item>
-        <item>social</item>
-        <item>economics</item>
-        <item>life</item>
-        <item>knowledge</item>
-        <item>it</item>
-        <item>fun</item>
-        <item>entertainment</item>
-        <item>game</item>
+        <item>0</item> <!-- All -->
+        <item>301816409282464093</item> <!-- Social -->
+        <item>300989576564947867</item> <!-- Economics -->
+        <item>244148959988020477</item> <!-- Life -->
+        <item>315890158150969179</item> <!-- knowledge -->
+        <item>261248828312298389</item> <!-- IT -->
+        <item>302115476506048236</item> <!-- fun -->
+        <item>302115476501939948</item> <!-- Entertainment -->
+        <item>297347994088281699</item> <!-- game -->
     </string-array>
 </resources>
