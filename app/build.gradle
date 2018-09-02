@@ -12,8 +12,8 @@ android {
         applicationId "jp.kuluna.hotbook"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 7
-        versionName "1.0.6"
+        versionCode 8
+        versionName "1.0.7"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -34,8 +34,8 @@ dependencies {
     implementation 'com.android.support:exifinterface:27.1.1'
     implementation 'com.android.support:preference-v7:27.1.1'
     implementation 'com.android.support:recyclerview-v7:27.1.1'
-    implementation 'com.google.firebase:firebase-core:16.0.1'
-    implementation 'com.google.firebase:firebase-perf:16.0.0'
+    implementation 'com.google.firebase:firebase-core:16.0.3'
+    implementation 'com.google.firebase:firebase-perf:16.1.0'
     implementation 'com.squareup.moshi:moshi:1.6.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.squareup.retrofit2:converter-moshi:2.4.0'
