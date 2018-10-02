@@ -1,16 +1,15 @@
 package jp.kuluna.hotbook.activities
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.v4.app.FragmentTransaction
-import android.support.v7.app.AppCompatActivity
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.google.firebase.analytics.FirebaseAnalytics
 import jp.kuluna.hotbook.R
 import jp.kuluna.hotbook.fragments.BookmarkListFragment
@@ -30,7 +29,7 @@ class EntryActivity : AppCompatActivity() {
         firebase = FirebaseAnalytics.getInstance(this)
 
         // URLがなければ表示できないので戻る
-        val url = intent.extras.getString("url", "")
+        val url = intent.extras!!.getString("url", "")
         if (url.isEmpty()) {
             Toast.makeText(this, R.string.error_url_not_found, Toast.LENGTH_SHORT).show()
             finish()
@@ -76,14 +75,14 @@ class EntryActivity : AppCompatActivity() {
     /** コメント一覧の表示・非表示を切り替える */
     private val switchComment = Observer<Boolean> {
         val ft = supportFragmentManager.beginTransaction().apply {
-            val bookmarkFragment = supportFragmentManager.findFragmentByTag("bookmark")
+            val bookmarkFragment = supportFragmentManager.findFragmentByTag("bookmark")!!
             if (it == true) {
                 show(bookmarkFragment)
-                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                setTransition(androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
 
             } else {
                 hide(bookmarkFragment)
-                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
+                setTransition(androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
             }
         }
         ft.commit()
@@ -108,7 +107,7 @@ class EntryActivity : AppCompatActivity() {
             }
 
             R.id.menuBlockJs -> {
-                val host = Uri.parse(viewModel.url.get()).host
+                val host = Uri.parse(viewModel.url.get()).host!!
                 AppPreference(this).addBlock(host)
                 Toast.makeText(this, "${host}はJavaScriptを実行しません。", Toast.LENGTH_SHORT).show()
 
@@ -123,9 +122,9 @@ class EntryActivity : AppCompatActivity() {
                 // 表示/非表示を切り替える
                 val pref = AppPreference(this@EntryActivity)
                 val ft = supportFragmentManager.beginTransaction().apply {
-                    val f = supportFragmentManager.findFragmentByTag("darker")
+                    val f = supportFragmentManager.findFragmentByTag("darker")!!
                     if (pref.darker) hide(f) else show(f)
-                    setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                    setTransition(androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 }
                 ft.commit()
                 pref.darker = !pref.darker

@@ -2,13 +2,9 @@ package jp.kuluna.hotbook.activities
 
 import android.content.Context
 import android.content.Intent
-import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
-import android.support.v4.view.ViewPager
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.google.firebase.analytics.FirebaseAnalytics
 import jp.kuluna.hotbook.R
 import jp.kuluna.hotbook.databinding.ActivityMainBinding
@@ -32,7 +28,7 @@ class MainActivity : AppCompatActivity() {
             if (categories.size <= it) 0 else it
         }
 
-        binding.viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+        binding.viewPager.addOnPageChangeListener(object : androidx.viewpager.widget.ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {}
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
                 // 表示しているカテゴリをAnalyticsに上げる
@@ -59,12 +55,12 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-class MainPagerAdapter(fm: FragmentManager, context: Context, private val titles: Array<String>) : FragmentPagerAdapter(fm) {
+class MainPagerAdapter(fm: androidx.fragment.app.FragmentManager, context: Context, private val titles: Array<String>) : androidx.fragment.app.FragmentPagerAdapter(fm) {
     private val rssPaths = context.resources.getStringArray(R.array.categories)
 
     override fun getCount(): Int = titles.size
 
-    override fun getItem(position: Int): Fragment = EntryListFragment.createInstance(rssPaths[position])
+    override fun getItem(position: Int): androidx.fragment.app.Fragment = EntryListFragment.createInstance(rssPaths[position])
 
     override fun getPageTitle(position: Int): CharSequence? = titles[position]
 }

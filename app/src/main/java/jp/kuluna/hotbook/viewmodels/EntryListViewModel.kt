@@ -1,10 +1,10 @@
 package jp.kuluna.hotbook.viewmodels
 
 import android.app.Application
-import android.arch.lifecycle.AndroidViewModel
-import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.Observer
-import android.databinding.ObservableBoolean
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
+import androidx.databinding.ObservableBoolean
 import jp.kuluna.hotbook.fragments.EntryListAdapter
 import jp.kuluna.hotbook.models.ApiClient
 import jp.kuluna.hotbook.models.RetrofitLiveData
