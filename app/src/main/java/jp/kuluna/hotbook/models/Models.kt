@@ -5,62 +5,62 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 data class Entry(
-        var count: String,
-        var favicon_url: String,
-        var image_l: EntryImage?,
-        var eid: String,
-        var description: String,
-        var entry_url: String?,
-        var image: String,
-        var root_url: String,
-        var url: String,
-        var title: String,
-        var is_pr: Int
+        val count: String,
+        val favicon_url: String,
+        val image_l: EntryImage?,
+        val eid: String,
+        val description: String,
+        val entry_url: String?,
+        val image: String,
+        val root_url: String,
+        val url: String,
+        val title: String,
+        val is_pr: Int
 ) {
     fun getImageUrl(): String? = image_l?.url
 
     fun count(): Int = count.toInt()
 
-    fun getHost(): String = Uri.parse(root_url).host
+    fun getHost(): String = Uri.parse(root_url).host!!
 }
 
 data class EntryImage(
-        var width: Int,
-        var url: String,
-        var height: Int
+        val width: Int,
+        val url: String,
+        val height: Int
 )
 
 data class CommentResponse(
-        var count: Int,
-        var bookmarks: List<Bookmark>?,
-        var url: String,
-        var eid: Long,
-        var title: String,
-        var screenshot: String,
-        var entry_url: String
+        val count: Int,
+        val bookmarks: List<Bookmark>?,
+        val url: String,
+        val eid: Long,
+        val title: String,
+        val screenshot: String,
+        val entry_url: String
 )
 
 data class Bookmark(
-        var timestamp: String,
-        var comment: String,
-        var user: String,
-        var tags: List<String>
+        val timestamp: String,
+        val comment: String,
+        val user: String,
+        val tags: List<String>
 ) {
     fun getTimeStampDate(): Date {
         val format = SimpleDateFormat("yyyy/MM/dd hh:mm:ss", Locale.JAPAN)
         return format.parse(timestamp)
     }
 
-    fun getUserIconUrl(): String = "https://cdn.profile-image.st-hatena.com/users/${user}/profile.png"
+    fun getUserIconUrl(): String = "https://cdn.profile-image.st-hatena.com/users/$user/profile.png"
 }
 
 //////////////////// Wrapper ////////////////////
 data class ResponseBody<T>(
-        var body: T?,
-        var error: ResponseError?
+        val body: T?,
+        val error: ResponseError?
 )
 
 data class ResponseError(
-        var statusCode: Int,
-        var message: String
+        val statusCode: Int,
+        val message: String
 )

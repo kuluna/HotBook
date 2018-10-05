@@ -1,8 +1,8 @@
 package jp.kuluna.hotbook.activities
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.preference.PreferenceFragmentCompat
+import androidx.appcompat.app.AppCompatActivity
+import androidx.preference.PreferenceFragmentCompat
 import jp.kuluna.hotbook.R
 
 /** アプリの設定画面を表示するためのActivity。 */

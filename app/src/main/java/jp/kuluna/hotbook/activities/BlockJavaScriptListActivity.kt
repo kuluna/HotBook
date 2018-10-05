@@ -7,12 +7,10 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
-import android.support.v4.content.LocalBroadcastManager
-import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.widget.ArrayAdapter
 import android.widget.ListView
+import androidx.appcompat.app.AppCompatActivity
 import jp.kuluna.hotbook.models.AppPreference
 
 /** JavaScriptをブロックするURL一覧を表示するActivity。 */
@@ -40,12 +38,12 @@ class BlockJavaScriptListActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         // ダイアログからのレスポンスを受け取る
-        LocalBroadcastManager.getInstance(this).registerReceiver(responseReceiver, IntentFilter().apply { addAction("onDialogResponse") })
+        androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(this).registerReceiver(responseReceiver, IntentFilter().apply { addAction("onDialogResponse") })
     }
 
     override fun onPause() {
         super.onPause()
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(responseReceiver)
+        androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(this).unregisterReceiver(responseReceiver)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -66,7 +64,7 @@ class BlockJavaScriptListActivity : AppCompatActivity() {
 }
 
 /** 削除の確認を行うダイアログ */
-class DeleteConfirmDialogFragment : DialogFragment() {
+class DeleteConfirmDialogFragment : androidx.fragment.app.DialogFragment() {
     companion object {
         /** インスタンスを生成します。
          * @param url URL
@@ -81,19 +79,19 @@ class DeleteConfirmDialogFragment : DialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val url = arguments!!.getString("url")
+        val url = arguments!!.getString("url")!!
         return AlertDialog.Builder(activity)
                 .setTitle("このURLをブロックリストから削除してよろしいですか?")
                 .setMessage(url)
-                .setPositiveButton("削除", { _, _ ->
+                .setPositiveButton("削除") { _, _ ->
                     AppPreference(activity!!).removeBlock(url)
 
                     // Broadcastで通知
                     val intent = Intent("onDialogResponse").apply {
                         putExtra("url", url)
                     }
-                    LocalBroadcastManager.getInstance(activity!!).sendBroadcast(intent)
-                })
+                    androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(activity!!).sendBroadcast(intent)
+                }
                 .setNegativeButton("キャンセル", null)
                 .create()
     }

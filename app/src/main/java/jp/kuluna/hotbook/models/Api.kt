@@ -1,6 +1,6 @@
 package jp.kuluna.hotbook.models
 
-import android.arch.lifecycle.LiveData
+import androidx.lifecycle.LiveData
 import android.util.Log
 import okhttp3.OkHttpClient
 import retrofit2.Call

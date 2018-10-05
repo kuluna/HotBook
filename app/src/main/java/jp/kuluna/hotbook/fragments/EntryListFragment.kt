@@ -1,18 +1,16 @@
 package jp.kuluna.hotbook.fragments
 
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
-import android.databinding.DataBindingUtil
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
-import android.support.v4.app.Fragment
-import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProviders
 import jp.kuluna.hotbook.R
 import jp.kuluna.hotbook.activities.EntryActivity
 import jp.kuluna.hotbook.databinding.FragmentEntryListBinding
@@ -21,7 +19,7 @@ import jp.kuluna.hotbook.extensions.DataBindingAdapter
 import jp.kuluna.hotbook.models.Entry
 import jp.kuluna.hotbook.viewmodels.EntryListViewModel
 
-class EntryListFragment : Fragment() {
+class EntryListFragment : androidx.fragment.app.Fragment() {
 
     private lateinit var binding: FragmentEntryListBinding
     private lateinit var viewModel: EntryListViewModel
@@ -45,7 +43,7 @@ class EntryListFragment : Fragment() {
         binding.viewModel = viewModel
 
         // setup RecyclerView
-        binding.recyclerView.layoutManager = StaggeredGridLayoutManager(resources.getInteger(R.integer.grid_columns), StaggeredGridLayoutManager.VERTICAL)
+        binding.recyclerView.layoutManager = androidx.recyclerview.widget.StaggeredGridLayoutManager(resources.getInteger(R.integer.grid_columns), androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL)
         binding.recyclerView.adapter = viewModel.adapter
         viewModel.adapter.listener = object : DataBindingAdapter.OnItemClickListener<Entry> {
             override fun onItemClick(selectedItem: Entry, position: Int) {
@@ -69,7 +67,7 @@ class EntryListFragment : Fragment() {
     }
 
     private fun fetch() {
-        val category = arguments!!.getString("category")
+        val category = arguments!!.getString("category")!!
         viewModel.getEntries(this, category) {
             Handler().postDelayed({ binding.swipeRefresh.isRefreshing = false }, 1000)
         }

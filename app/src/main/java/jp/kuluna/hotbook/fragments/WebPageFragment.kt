@@ -1,8 +1,8 @@
 package jp.kuluna.hotbook.fragments
 
-import android.databinding.DataBindingUtil
+import androidx.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +14,7 @@ import jp.kuluna.hotbook.databinding.FragmentWebPageBinding
 import jp.kuluna.hotbook.models.AppPreference
 
 /** Webページを読み込んで表示するFragment。 */
-class WebPageFragment : Fragment() {
+class WebPageFragment : androidx.fragment.app.Fragment() {
     private lateinit var binding: FragmentWebPageBinding
 
     private val webChromeClient = object : WebChromeClient() {

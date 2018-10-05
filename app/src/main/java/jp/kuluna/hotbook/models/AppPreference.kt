@@ -15,7 +15,7 @@ class AppPreference(context: Context) {
     set(value) = shared.edit().putBoolean("darker", value).apply()
 
     val blockJsHosts: Set<String>
-    get() = shared.getStringSet("blockHosts", emptySet())
+    get() = shared.getStringSet("blockHosts", emptySet())!!
 
     fun addBlock(host: String) {
         val sites = blockJsHosts.toMutableSet()

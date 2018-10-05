@@ -1,15 +1,13 @@
 package jp.kuluna.hotbook.fragments
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
-import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import jp.kuluna.hotbook.R
 import jp.kuluna.hotbook.databinding.FragmentBookmarkListBinding
 import jp.kuluna.hotbook.databinding.ListBookmarkBinding
@@ -17,7 +15,7 @@ import jp.kuluna.hotbook.extensions.DataBindingAdapter
 import jp.kuluna.hotbook.models.Bookmark
 import jp.kuluna.hotbook.viewmodels.EntryViewModel
 
-class BookmarkListFragment : Fragment() {
+class BookmarkListFragment : androidx.fragment.app.Fragment() {
 
     companion object {
         fun new(url: String): BookmarkListFragment {
@@ -44,20 +42,18 @@ class BookmarkListFragment : Fragment() {
         val bookmarksAdapter = BookmarkAdapter(context!!)
         // setup RecyclerView
         binding.recyclerView.run {
-            layoutManager = LinearLayoutManager(context)
+            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
             adapter = bookmarksAdapter
         }
 
         // load comments
-        viewModel.getBookmarks(this, arguments!!.getString("url"))
+        viewModel.getBookmarks(this, arguments!!.getString("url")!!)
 
         // on loaded
         viewModel.bookmarks.observe(this, Observer {
             binding.loaded = true
-            it?.let {
-                bookmarksAdapter.items = it
-                binding.empty = it.isEmpty()
-            }
+            bookmarksAdapter.items = it
+            binding.empty = it.isEmpty()
         })
     }
 }

@@ -1,15 +1,14 @@
 package jp.kuluna.hotbook.extensions
 
 import android.content.Context
-import android.databinding.DataBindingUtil
-import android.databinding.ViewDataBinding
-import android.support.annotation.LayoutRes
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.LayoutRes
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 
-abstract class DataBindingAdapter<E, T : ViewDataBinding>(val context: Context, @LayoutRes private val layoutId: Int) : RecyclerView.Adapter<DataBindingAdapter.DataBindingViewHolder<T>>() {
+abstract class DataBindingAdapter<E, T : ViewDataBinding>(val context: Context, @LayoutRes private val layoutId: Int) : androidx.recyclerview.widget.RecyclerView.Adapter<DataBindingAdapter.DataBindingViewHolder<T>>() {
     var items = emptyList<E>()
     set(value) {
         field = value
@@ -36,7 +35,7 @@ abstract class DataBindingAdapter<E, T : ViewDataBinding>(val context: Context, 
 
     abstract fun bind(holder: DataBindingViewHolder<T>, item: E)
 
-    class DataBindingViewHolder<out T : ViewDataBinding>(view: View) : RecyclerView.ViewHolder(view) {
+    class DataBindingViewHolder<out T : ViewDataBinding>(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
         val binding: T = DataBindingUtil.bind(view)!!
     }
 
