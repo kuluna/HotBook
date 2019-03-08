@@ -20,7 +20,7 @@ class EntryViewModel(app: Application) : AndroidViewModel(app) {
     fun getBookmarks(owner: LifecycleOwner, url: String) {
         RetrofitLiveData(api.getComments(url)).observe(owner, Observer { response ->
             response?.body?.let {
-                bookmarks.postValue(it.bookmarks?.filter { it.comment.isNotEmpty() })
+                bookmarks.postValue(it.bookmarks?.filter { bookmark -> bookmark.comment.isNotEmpty() })
             }
         })
     }

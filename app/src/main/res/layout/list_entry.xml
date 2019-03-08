@@ -14,19 +14,20 @@
             type="jp.kuluna.hotbook.models.Entry" />
     </data>
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:layout_marginEnd="@dimen/margin_card"
         android:layout_marginStart="@dimen/margin_card"
         android:layout_marginTop="@dimen/margin_card"
+        android:layout_marginEnd="@dimen/margin_card"
+        android:layout_marginBottom="4dp"
         android:foreground="?android:attr/selectableItemBackground"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        app:cardCornerRadius="8dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <ImageView
@@ -36,14 +37,15 @@
                 android:scaleType="centerCrop"
                 android:visibility="@{item.image_l != null ? View.VISIBLE : View.GONE}"
                 app:loadImage="@{item.getImageUrl()}"
+                tools:ignore="ContentDescription"
                 tools:src="@drawable/ic_launcher_background" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
                 android:ellipsize="end"
                 android:maxLines="4"
                 android:text="@{item.title}"
@@ -54,17 +56,17 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
                 android:text="@{@plurals/users(item.count(), item.count)}"
                 tools:text="100 users" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="16dp"
                 android:gravity="center_vertical">
 
                 <ImageView
@@ -72,18 +74,20 @@
                     android:layout_height="16dp"
                     android:layout_marginStart="0dp"
                     android:layout_marginEnd="2dp"
-                    app:loadImage="@{item.favicon_url}" />
+                    app:loadImage="@{item.favicon_url}"
+                    tools:ignore="ContentDescription"
+                    tools:src="@mipmap/ic_launcher" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ellipsize="start"
                     android:singleLine="true"
-                    android:textSize="12sp"
                     android:text="@{item.getHost()}"
+                    android:textSize="12sp"
                     tools:text="hatena.ne.jp" />
             </LinearLayout>
 
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 </layout>

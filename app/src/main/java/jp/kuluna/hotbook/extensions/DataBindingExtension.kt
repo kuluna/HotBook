@@ -1,12 +1,16 @@
 package jp.kuluna.hotbook.extensions
 
-import androidx.databinding.BindingAdapter
 import android.widget.ImageView
-import com.squareup.picasso.Picasso
+import androidx.databinding.BindingAdapter
+import com.bumptech.glide.Glide
 
 @BindingAdapter("loadImage")
 fun ImageView.loadImageAsync(url: String?) {
     url?.let {
-        Picasso.get().load(it).into(this)
+        Glide.with(context)
+                .load(it)
+                .centerCrop()
+                .fitCenter()
+                .into(this)
     }
 }
