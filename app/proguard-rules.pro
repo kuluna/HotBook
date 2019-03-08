@@ -10,6 +10,7 @@
 # okhttp
 -dontwarn okhttp3.**
 -dontwarn okio.**
+-dontwarn okio.**
 
 # glide
 -keep public class * implements com.bumptech.glide.module.GlideModule
