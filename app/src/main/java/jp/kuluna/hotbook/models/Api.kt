@@ -25,7 +25,7 @@ object ApiClient {
     val hatena: Api
         get() {
             val retrofit = Retrofit.Builder()
-                    .baseUrl("http://b.hatena.ne.jp")
+                    .baseUrl("https://b.hatena.ne.jp")
                     .client(OkHttpClient())
                     .addConverterFactory(MoshiConverterFactory.create())
                     .build()

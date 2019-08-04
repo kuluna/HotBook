@@ -14,7 +14,8 @@
             type="jp.kuluna.hotbook.models.Entry" />
     </data>
 
-    <com.google.android.material.card.MaterialCardView
+    <!-- MaterialCardViewはRippleがでないバグがあるためこちらを使用 -->
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_card"
@@ -89,5 +90,5 @@
             </LinearLayout>
 
         </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
+    </androidx.cardview.widget.CardView>
 </layout>
