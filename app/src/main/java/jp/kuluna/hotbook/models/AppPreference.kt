@@ -1,7 +1,7 @@
 package jp.kuluna.hotbook.models
 
 import android.content.Context
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 
 class AppPreference(context: Context) {
     private val shared = PreferenceManager.getDefaultSharedPreferences(context)

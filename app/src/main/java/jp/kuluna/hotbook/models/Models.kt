@@ -46,11 +46,6 @@ data class Bookmark(
         val user: String,
         val tags: List<String>
 ) {
-    fun getTimeStampDate(): Date {
-        val format = SimpleDateFormat("yyyy/MM/dd hh:mm:ss", Locale.JAPAN)
-        return format.parse(timestamp)
-    }
-
     fun getUserIconUrl(): String = "https://cdn.profile-image.st-hatena.com/users/$user/profile.png"
 }
 
