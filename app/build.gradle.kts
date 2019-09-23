@@ -13,8 +13,8 @@ android {
         applicationId = "jp.kuluna.hotbook"
         minSdkVersion(21)
         targetSdkVersion(29)
-        versionCode = 11
-        versionName = "1.0.10"
+        versionCode = 12
+        versionName = "1.0.11"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -29,15 +29,15 @@ android {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.41")
-    implementation("androidx.lifecycle:lifecycle-extensions:2.0.0")
-    implementation("androidx.lifecycle:lifecycle-runtime:2.0.0")
-    implementation("androidx.appcompat:appcompat:1.0.2")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.50")
+    implementation("androidx.lifecycle:lifecycle-extensions:2.1.0")
+    implementation("androidx.lifecycle:lifecycle-runtime:2.1.0")
+    implementation("androidx.appcompat:appcompat:1.1.0")
     implementation("com.google.android.material:material:1.0.0")
     implementation("androidx.exifinterface:exifinterface:1.0.0")
-    implementation("androidx.preference:preference:1.0.0")
+    implementation("androidx.preference:preference:1.1.0")
     implementation("androidx.recyclerview:recyclerview:1.0.0")
-    implementation("com.google.firebase:firebase-core:17.1.0")
+    implementation("com.google.firebase:firebase-core:17.2.0")
     implementation("com.google.firebase:firebase-perf:19.0.0")
     implementation("com.squareup.moshi:moshi:1.8.0")
     implementation("com.github.bumptech.glide:glide:4.9.0")
@@ -45,7 +45,7 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.6.1")
 
     kapt("com.github.bumptech.glide:compiler:4.9.0")
-    kapt("androidx.lifecycle:lifecycle-compiler:2.0.0")
+    kapt("androidx.lifecycle:lifecycle-compiler:2.1.0")
 
     testImplementation("junit:junit:4.12")
     androidTestImplementation("androidx.test:runner:1.2.0")
