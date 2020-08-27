@@ -6,8 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.viewModels
 import jp.kuluna.hotbook.R
 import jp.kuluna.hotbook.databinding.FragmentBookmarkListBinding
 import jp.kuluna.hotbook.databinding.ListBookmarkBinding
@@ -28,7 +27,7 @@ class BookmarkListFragment : androidx.fragment.app.Fragment() {
     }
 
     private lateinit var binding: FragmentBookmarkListBinding
-    private lateinit var viewModel: EntryViewModel
+    private val viewModel: EntryViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_bookmark_list, container, false)
@@ -37,7 +36,6 @@ class BookmarkListFragment : androidx.fragment.app.Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(activity!!).get(EntryViewModel::class.java)
 
         val bookmarksAdapter = BookmarkAdapter(context!!)
         // setup RecyclerView
@@ -50,11 +48,11 @@ class BookmarkListFragment : androidx.fragment.app.Fragment() {
         viewModel.getBookmarks(this, arguments!!.getString("url")!!)
 
         // on loaded
-        viewModel.bookmarks.observe(this, Observer {
+        viewModel.bookmarks.observe(viewLifecycleOwner) {
             binding.loaded = true
             bookmarksAdapter.items = it
             binding.empty = it.isEmpty()
-        })
+        }
     }
 }
 

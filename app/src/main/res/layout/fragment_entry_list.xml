@@ -1,5 +1,6 @@
 <?rss version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="jp.kuluna.hotbook.fragments.EntryListFragment">
 
@@ -26,10 +27,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
-                tools:listitem="@layout/list_entry"
-                android:paddingEnd="@dimen/padding_grid_width"
                 android:paddingStart="@dimen/padding_grid_width"
-                android:paddingTop="@dimen/padding_grid_width" />
+                android:paddingTop="@dimen/padding_grid_width"
+                android:paddingEnd="@dimen/padding_grid_width"
+                tools:listitem="@layout/list_entry" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
@@ -38,11 +39,11 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:drawableTop="@drawable/ic_help_outline_100dp"
             android:text="@string/error_message"
             android:textColor="@color/lightGrey"
             android:textSize="18sp"
-            android:visibility="@{viewModel.emptyView ? View.VISIBLE : View.GONE}" />
+            android:visibility="@{viewModel.emptyView ? View.VISIBLE : View.GONE}"
+            app:drawableTopCompat="@drawable/ic_help_outline_100dp" />
 
     </RelativeLayout>
 

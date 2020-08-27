@@ -16,9 +16,9 @@ class EntryListViewModel(app: Application) : AndroidViewModel(app) {
     val adapter = EntryListAdapter(app)
 
     fun getEntries(owner: LifecycleOwner, category: String, done: () -> Unit) {
-        RetrofitLiveData(api.getEntries(category)).observe(owner, Observer { response ->
+        RetrofitLiveData(api.getEntries(category)).observe(owner) { response ->
             response?.body?.let {
-                adapter.items = it.filter { entry -> entry.is_pr == 0 }
+                adapter.items = it
                 emptyView.set(false)
             }
 
@@ -27,6 +27,6 @@ class EntryListViewModel(app: Application) : AndroidViewModel(app) {
             }
 
             done()
-        })
+        }
     }
 }

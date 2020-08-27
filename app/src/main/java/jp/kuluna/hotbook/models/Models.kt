@@ -14,8 +14,7 @@ data class Entry(
         val image: String,
         val root_url: String,
         val url: String,
-        val title: String,
-        val is_pr: Int
+        val title: String
 ) {
     fun getImageUrl(): String? = image_l?.url
 

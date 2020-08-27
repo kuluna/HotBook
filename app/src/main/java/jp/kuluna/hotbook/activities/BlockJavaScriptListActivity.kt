@@ -5,7 +5,6 @@ import android.app.Dialog
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ArrayAdapter
@@ -38,12 +37,10 @@ class BlockJavaScriptListActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         // ダイアログからのレスポンスを受け取る
-        androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(this).registerReceiver(responseReceiver, IntentFilter().apply { addAction("onDialogResponse") })
     }
 
     override fun onPause() {
         super.onPause()
-        androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(this).unregisterReceiver(responseReceiver)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -90,7 +87,7 @@ class DeleteConfirmDialogFragment : androidx.fragment.app.DialogFragment() {
                     val intent = Intent("onDialogResponse").apply {
                         putExtra("url", url)
                     }
-                    androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(activity!!).sendBroadcast(intent)
+
                 }
                 .setNegativeButton("キャンセル", null)
                 .create()

@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import com.google.firebase.analytics.FirebaseAnalytics
 import jp.kuluna.hotbook.R
 import jp.kuluna.hotbook.databinding.ActivityMainBinding
 import jp.kuluna.hotbook.fragments.EntryListFragment
@@ -16,7 +15,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val firebase = FirebaseAnalytics.getInstance(this)
         val categories = resources.getStringArray(R.array.tab_title)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
@@ -35,7 +33,6 @@ class MainActivity : AppCompatActivity() {
                 val bundle = Bundle().apply {
                     putString("category", categories[position])
                 }
-                firebase.logEvent("change_category", bundle)
             }
 
             override fun onPageSelected(position: Int) {}

@@ -4,13 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.viewModels
 import jp.kuluna.hotbook.R
 import jp.kuluna.hotbook.activities.EntryActivity
 import jp.kuluna.hotbook.databinding.FragmentEntryListBinding
@@ -22,7 +21,7 @@ import jp.kuluna.hotbook.viewmodels.EntryListViewModel
 class EntryListFragment : androidx.fragment.app.Fragment() {
 
     private lateinit var binding: FragmentEntryListBinding
-    private lateinit var viewModel: EntryListViewModel
+    private val viewModel: EntryListViewModel by viewModels()
 
     companion object {
         fun createInstance(category: String): EntryListFragment {
@@ -39,7 +38,6 @@ class EntryListFragment : androidx.fragment.app.Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(EntryListViewModel::class.java)
         binding.viewModel = viewModel
 
         // setup RecyclerView
@@ -69,7 +67,7 @@ class EntryListFragment : androidx.fragment.app.Fragment() {
     private fun fetch() {
         val category = arguments!!.getString("category")!!
         viewModel.getEntries(this, category) {
-            Handler().postDelayed({ binding.swipeRefresh.isRefreshing = false }, 1000)
+            binding.root.postDelayed({ binding.swipeRefresh.isRefreshing = false }, 1000)
         }
     }
 

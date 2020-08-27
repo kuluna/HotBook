@@ -2,6 +2,8 @@ package jp.kuluna.hotbook.models
 
 import androidx.lifecycle.LiveData
 import android.util.Log
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
@@ -22,15 +24,16 @@ interface Api {
 }
 
 object ApiClient {
-    val hatena: Api
-        get() {
-            val retrofit = Retrofit.Builder()
-                    .baseUrl("https://b.hatena.ne.jp")
-                    .client(OkHttpClient())
-                    .addConverterFactory(MoshiConverterFactory.create())
-                    .build()
-            return retrofit.create(Api::class.java)
-        }
+    private val moshi = Moshi.Builder()
+            .add(KotlinJsonAdapterFactory())
+            .build()
+
+    val hatena: Api = Retrofit.Builder()
+            .baseUrl("https://b.hatena.ne.jp")
+            .client(OkHttpClient())
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .build()
+            .create(Api::class.java)
 }
 
 class RetrofitLiveData<T>(private val call: Call<T>) : LiveData<ResponseBody<T>>(), Callback<T> {
