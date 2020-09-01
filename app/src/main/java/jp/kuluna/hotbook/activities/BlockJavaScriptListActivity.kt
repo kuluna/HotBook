@@ -2,18 +2,16 @@ package jp.kuluna.hotbook.activities
 
 import android.app.AlertDialog
 import android.app.Dialog
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.DialogFragment
 import jp.kuluna.hotbook.models.AppPreference
 
 /** JavaScriptをブロックするURL一覧を表示するActivity。 */
-class BlockJavaScriptListActivity : AppCompatActivity() {
+class BlockJavaScriptListActivity : AppCompatActivity(), DeleteConfirmDialogFragment.Callback {
     private lateinit var listView: ListView
     private lateinit var adapter: ArrayAdapter<String>
 
@@ -25,8 +23,8 @@ class BlockJavaScriptListActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         // リストを表示
-        val blockList = AppPreference(this).blockJsHosts.toList()
-        adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, blockList)
+        adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1)
+        adapter.addAll(AppPreference(this).blockJsHosts)
         listView.adapter = adapter
         listView.setOnItemClickListener { adapterView, _, position, _ ->
             val url = adapterView.getItemAtPosition(position) as String
@@ -34,13 +32,8 @@ class BlockJavaScriptListActivity : AppCompatActivity() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        // ダイアログからのレスポンスを受け取る
-    }
-
-    override fun onPause() {
-        super.onPause()
+    override fun onRemoveBlockUrl(url: String) {
+        adapter.remove(url)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -49,21 +42,13 @@ class BlockJavaScriptListActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
-
-    /** ダイアログから削除が押されたイベントを受け取ってリストからURLを削除します。 */
-    private val responseReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent?) {
-            intent?.getStringExtra("url")?.let {
-                adapter.remove(it)
-            }
-        }
-    }
 }
 
 /** 削除の確認を行うダイアログ */
-class DeleteConfirmDialogFragment : androidx.fragment.app.DialogFragment() {
+class DeleteConfirmDialogFragment : DialogFragment() {
     companion object {
-        /** インスタンスを生成します。
+        /**
+         * インスタンスを生成します。
          * @param url URL
          */
         fun new(url: String): DeleteConfirmDialogFragment {
@@ -82,14 +67,13 @@ class DeleteConfirmDialogFragment : androidx.fragment.app.DialogFragment() {
                 .setMessage(url)
                 .setPositiveButton("削除") { _, _ ->
                     AppPreference(activity!!).removeBlock(url)
-
-                    // Broadcastで通知
-                    val intent = Intent("onDialogResponse").apply {
-                        putExtra("url", url)
-                    }
-
+                    (activity as? Callback)?.onRemoveBlockUrl(url)
                 }
                 .setNegativeButton("キャンセル", null)
                 .create()
+    }
+
+    interface Callback {
+        fun onRemoveBlockUrl(url: String)
     }
 }
