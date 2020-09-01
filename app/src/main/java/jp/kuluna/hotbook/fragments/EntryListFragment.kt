@@ -8,6 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import androidx.core.view.OnApplyWindowInsetsListener
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import jp.kuluna.hotbook.R
@@ -19,7 +23,6 @@ import jp.kuluna.hotbook.models.Entry
 import jp.kuluna.hotbook.viewmodels.EntryListViewModel
 
 class EntryListFragment : androidx.fragment.app.Fragment() {
-
     private lateinit var binding: FragmentEntryListBinding
     private val viewModel: EntryListViewModel by viewModels()
 
@@ -38,6 +41,13 @@ class EntryListFragment : androidx.fragment.app.Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        // RecyclerViewのBottomをNavigationBarの高さ分底上げする
+        ViewCompat.setOnApplyWindowInsetsListener(binding.recyclerView, OnApplyWindowInsetsListener { v, insets ->
+            val bottomInset = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
+            v.updatePadding(bottom = bottomInset)
+            return@OnApplyWindowInsetsListener insets
+        })
+
         binding.viewModel = viewModel
 
         // setup RecyclerView

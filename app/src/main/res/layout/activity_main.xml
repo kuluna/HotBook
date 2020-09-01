@@ -11,14 +11,15 @@
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:elevation="4dp">
+            android:elevation="4dp"
+            android:fitsSystemWindows="true">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolBar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:theme="@style/ThemeOverlay.AppCompat"
                 app:layout_scrollFlags="enterAlways|scroll"
+                app:menu="@menu/activity_main"
                 app:title="@string/app_name">
 
             </androidx.appcompat.widget.Toolbar>
@@ -27,15 +28,13 @@
                 android:id="@+id/tabLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:tabBackground="@color/colorPrimary"
-                app:tabIndicatorColor="@color/colorAccent"
                 app:tabMode="scrollable"
                 app:tabTextColor="@android:color/white">
 
             </com.google.android.material.tabs.TabLayout>
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.viewpager.widget.ViewPager
+        <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

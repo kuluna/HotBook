@@ -1,11 +1,9 @@
 package jp.kuluna.hotbook.models
 
 import android.net.Uri
-import java.text.SimpleDateFormat
-import java.util.*
 
 data class Entry(
-        val count: String,
+        val count: Int,
         val favicon_url: String,
         val image_l: EntryImage?,
         val eid: String,
@@ -17,8 +15,6 @@ data class Entry(
         val title: String
 ) {
     fun getImageUrl(): String? = image_l?.url
-
-    fun count(): Int = count.toInt()
 
     fun getHost(): String = Uri.parse(root_url).host!!
 }
