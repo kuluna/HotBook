@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId = "jp.kuluna.hotbook"
-        minSdkVersion(21)
+        minSdkVersion(23)
         targetSdkVersion(30)
         versionCode = 12
         versionName = "1.0.11"
@@ -45,6 +45,7 @@ android {
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.0")
     implementation("androidx.appcompat:appcompat:1.2.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.0.1")
     implementation("androidx.core:core-ktx:1.5.0-alpha02")
     implementation("androidx.fragment:fragment-ktx:1.2.5")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")

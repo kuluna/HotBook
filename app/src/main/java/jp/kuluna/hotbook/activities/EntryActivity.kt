@@ -1,16 +1,17 @@
 package jp.kuluna.hotbook.activities
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.KeyEvent
-import android.view.Menu
-import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.commit
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import jp.kuluna.hotbook.R
+import jp.kuluna.hotbook.databinding.ActivityEntryBinding
 import jp.kuluna.hotbook.fragments.BookmarkListFragment
 import jp.kuluna.hotbook.fragments.DarkerFragment
 import jp.kuluna.hotbook.fragments.WebPageFragment
@@ -19,7 +20,18 @@ import jp.kuluna.hotbook.viewmodels.EntryViewModel
 
 /** Webページとブックマークコメント一覧を表示するActivity。 */
 class EntryActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityEntryBinding
     private val viewModel: EntryViewModel by viewModels()
+
+    companion object {
+        fun start(context: Context, title: String, url: String) {
+            val intent = Intent(context, EntryActivity::class.java).apply {
+                putExtra("title", title)
+                putExtra("url", url)
+            }
+            context.startActivity(intent)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,114 +43,100 @@ class EntryActivity : AppCompatActivity() {
             finish()
             return
         }
+
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_entry)
         viewModel.url.set(url)
 
-        // URLをタイトルに設定
-        intent.getStringExtra("host")?.let {
-            title = it
+        setUpViews(savedInstanceState, url)
+        setUpEvents()
+    }
+
+    private fun setUpViews(savedInstanceState: Bundle?, url: String) {
+        binding.toolBar.run {
+            title = intent.getStringExtra("title")
+            subtitle = Uri.parse(intent.getStringExtra("url")!!).host
         }
 
         // Fragmentの初期設定
         if (savedInstanceState == null) {
-            val ft = supportFragmentManager.beginTransaction().apply {
+            supportFragmentManager.commit {
                 // Webページを表示するFragmentを追加
-                add(android.R.id.content, WebPageFragment.new(url), "web")
+                add(binding.webContainer.id, WebPageFragment.new(url), "web")
 
                 // Webページの明るさを落とすためのFragmentを追加
                 val darkerFragment = DarkerFragment()
-                add(android.R.id.content, darkerFragment, "darker")
+                add(binding.darkerContainer.id, darkerFragment, "darker")
                 // 暗くしない設定なら非表示にする
                 if (!AppPreference(this@EntryActivity).darker) {
                     hide(darkerFragment)
                 }
 
-                // ブコメを表示するFragmentを追加(最初は非表示)
+                // ブコメを表示するFragmentを追加
                 val bookmarkFragment = BookmarkListFragment.new(url)
-                add(android.R.id.content, bookmarkFragment, "bookmark")
-                hide(bookmarkFragment)
-            }
-            ft.commit()
-        }
-
-        // コメントの表示、非表示の切り替え
-        viewModel.showBookmark.observe(this, switchComment)
-    }
-
-    /** コメント一覧の表示・非表示を切り替える */
-    private val switchComment = Observer<Boolean> {
-        val ft = supportFragmentManager.beginTransaction().apply {
-            val bookmarkFragment = supportFragmentManager.findFragmentByTag("bookmark")!!
-            if (it == true) {
-                show(bookmarkFragment)
-                setTransition(androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-
-            } else {
-                hide(bookmarkFragment)
-                setTransition(androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
+                add(binding.commentContainer.id, bookmarkFragment, "bookmark")
             }
         }
-        ft.commit()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.activity_entry, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.menuComment -> {
-                val change = viewModel.showBookmark.value?.let { !it } ?: run { true }
-                viewModel.showBookmark.postValue(change)
-            }
-
-            R.id.menuReload -> {
-                // Webを再読み込み
-                (supportFragmentManager.findFragmentByTag("web") as WebPageFragment).load()
-            }
-
-            R.id.menuBlockJs -> {
-                val host = Uri.parse(viewModel.url.get()).host!!
-                AppPreference(this).addBlock(host)
-                Toast.makeText(this, "${host}はJavaScriptを実行しません。", Toast.LENGTH_SHORT).show()
-
-                // Webを再読み込み
-                (supportFragmentManager.findFragmentByTag("web") as WebPageFragment).load()
-            }
-
-            R.id.menuBrightness -> {
-                // 表示/非表示を切り替える
-                val pref = AppPreference(this@EntryActivity)
-                val ft = supportFragmentManager.beginTransaction().apply {
-                    val f = supportFragmentManager.findFragmentByTag("darker")!!
-                    if (pref.darker) hide(f) else show(f)
-                    setTransition(androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+    private fun setUpEvents() {
+        binding.toolBar.setNavigationOnClickListener {
+            finish()
+        }
+        binding.toolBar.setOnMenuItemClickListener { item ->
+            when (item.itemId) {
+                R.id.menuComment -> {
+                    toggleBottomSheet()
                 }
-                ft.commit()
-                pref.darker = !pref.darker
-            }
 
-            R.id.menuShare -> {
-                val intent = Intent(Intent.ACTION_SEND).apply {
-                    putExtra(Intent.EXTRA_TEXT, viewModel.url.get())
-                    type = "text/plain"
+                R.id.menuReload -> {
+                    // Webを再読み込み
+                    (supportFragmentManager.findFragmentByTag("web") as WebPageFragment).load()
                 }
-                startActivity(Intent.createChooser(intent, getString(R.string.share_url)))
+
+                R.id.menuBlockJs -> {
+                    val host = Uri.parse(viewModel.url.get()).host!!
+                    AppPreference(this).addBlock(host)
+                    Toast.makeText(this, "${host}はJavaScriptを実行しません。", Toast.LENGTH_SHORT).show()
+
+                    // Webを再読み込み
+                    (supportFragmentManager.findFragmentByTag("web") as WebPageFragment).load()
+                }
+
+                R.id.menuBrightness -> {
+                    // 表示/非表示を切り替える
+                    val pref = AppPreference(this@EntryActivity)
+                    val ft = supportFragmentManager.beginTransaction().apply {
+                        val f = supportFragmentManager.findFragmentByTag("darker")!!
+                        if (pref.darker) hide(f) else show(f)
+                        setTransition(androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                    }
+                    ft.commit()
+                    pref.darker = !pref.darker
+                }
+
+                R.id.menuShare -> {
+                    val intent = Intent(Intent.ACTION_SEND).apply {
+                        putExtra(Intent.EXTRA_TEXT, viewModel.url.get())
+                        type = "text/plain"
+                    }
+                    startActivity(Intent.createChooser(intent, getString(R.string.share_url)))
+                }
+
+                R.id.menuOpenBrowser -> {
+                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(viewModel.url.get())))
+                }
             }
 
-            R.id.menuOpenBrowser -> {
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(viewModel.url.get())))
-            }
+            true
         }
-        return super.onOptionsItemSelected(item)
     }
 
-    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        // コメントを表示している場合はBackキーで非表示にする
-        if (keyCode == KeyEvent.KEYCODE_BACK && viewModel.showBookmark.value == true) {
-            viewModel.showBookmark.postValue(false)
-            return false
+    private fun toggleBottomSheet() {
+        val behavior = BottomSheetBehavior.from(binding.bottomSheet)
+        if (behavior.state == BottomSheetBehavior.STATE_COLLAPSED) {
+            behavior.state = BottomSheetBehavior.STATE_EXPANDED
+        } else if (behavior.state == BottomSheetBehavior.STATE_EXPANDED) {
+            behavior.state = BottomSheetBehavior.STATE_COLLAPSED
         }
-        return super.onKeyDown(keyCode, event)
     }
 }

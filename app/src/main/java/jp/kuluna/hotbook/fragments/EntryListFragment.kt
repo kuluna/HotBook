@@ -55,12 +55,7 @@ class EntryListFragment : androidx.fragment.app.Fragment() {
         binding.recyclerView.adapter = viewModel.adapter
         viewModel.adapter.listener = object : DataBindingAdapter.OnItemClickListener<Entry> {
             override fun onItemClick(selectedItem: Entry, position: Int) {
-                val intent = Intent(context, EntryActivity::class.java).apply {
-                    putExtra("title", selectedItem.title)
-                    putExtra("host", Uri.parse(selectedItem.url).host)
-                    putExtra("url", selectedItem.url)
-                }
-                startActivity(intent)
+                EntryActivity.start(context!!, selectedItem.title, selectedItem.url)
             }
         }
 

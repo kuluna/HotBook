@@ -14,7 +14,6 @@ class EntryViewModel(app: Application) : AndroidViewModel(app) {
     private val api = ApiClient.hatena
 
     val url = ObservableField<String>()
-    val showBookmark = MutableLiveData<Boolean>()
     val bookmarks = MutableLiveData<List<Bookmark>>()
 
     fun getBookmarks(owner: LifecycleOwner, url: String) {

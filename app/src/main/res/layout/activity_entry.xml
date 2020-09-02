@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="?attr/actionBarSize">
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/web_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/darker_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </FrameLayout>
+
+
+        <LinearLayout
+            android:id="@+id/bottom_sheet"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:background="?android:attr/colorBackground"
+            android:orientation="vertical"
+            app:behavior_hideable="false"
+            app:behavior_peekHeight="?attr/actionBarSize"
+            app:layout_behavior="@string/bottom_sheet_behavior">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/tool_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:menu="@menu/activity_entry"
+                app:navigationIcon="@drawable/ic_arrow_back" />
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/comment_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>
