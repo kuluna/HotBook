@@ -2,36 +2,41 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true">
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="?attr/actionBarSize">
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/web_container"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_sheet"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/web_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/darker_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </FrameLayout>
-
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/darker_container"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/web_container"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
             android:id="@+id/bottom_sheet"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
             android:background="?android:attr/colorBackground"
+            android:elevation="8dp"
+            android:clipToPadding="false"
             android:orientation="vertical"
-            app:behavior_hideable="false"
-            app:behavior_peekHeight="?attr/actionBarSize"
-            app:layout_behavior="@string/bottom_sheet_behavior">
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/tool_bar"
@@ -43,10 +48,10 @@
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/comment_container"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="300dp"
+                android:visibility="gone" />
 
         </LinearLayout>
 
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

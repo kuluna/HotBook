@@ -7,9 +7,9 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.commit
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import jp.kuluna.hotbook.R
 import jp.kuluna.hotbook.databinding.ActivityEntryBinding
 import jp.kuluna.hotbook.fragments.BookmarkListFragment
@@ -132,11 +132,6 @@ class EntryActivity : AppCompatActivity() {
     }
 
     private fun toggleBottomSheet() {
-        val behavior = BottomSheetBehavior.from(binding.bottomSheet)
-        if (behavior.state == BottomSheetBehavior.STATE_COLLAPSED) {
-            behavior.state = BottomSheetBehavior.STATE_EXPANDED
-        } else if (behavior.state == BottomSheetBehavior.STATE_EXPANDED) {
-            behavior.state = BottomSheetBehavior.STATE_COLLAPSED
-        }
+        binding.commentContainer.isVisible = binding.commentContainer.isVisible.not()
     }
 }
